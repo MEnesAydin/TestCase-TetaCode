@@ -1,1 +1,5 @@
-<Solution />
+<Solution>
+  <Project Path="src/TestCase.Domain/TestCase.Domain.csproj" />
+  <Project Path="src/TestCase.Infrastructure/TestCase.Infrastructure.csproj" />
+  <Project Path="src/TestCase.WebAPI/TestCase.WebAPI.csproj" />
+</Solution>
