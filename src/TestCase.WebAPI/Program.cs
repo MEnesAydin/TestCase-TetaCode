@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.RateLimiting;
 using Scalar.AspNetCore;
 using TestCase.Application;
 using TestCase.Infrastructure;
+using TestCase.WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +50,7 @@ builder.Services.AddRateLimiter(cfr =>
 builder.Services.AddControllers();
 builder.Services.AddCors();
 builder.Services.AddOpenApi();
+builder.Services.AddExceptionHandler<ExceptionHandler>().AddProblemDetails();
 
 
 var app = builder.Build();
