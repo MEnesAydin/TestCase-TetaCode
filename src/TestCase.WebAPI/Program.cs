@@ -4,6 +4,7 @@ using Scalar.AspNetCore;
 using TestCase.Application;
 using TestCase.Infrastructure;
 using TestCase.WebAPI;
+using TestCase.WebAPI.Modules;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -76,5 +77,6 @@ app.MapControllers()
     .RequireRateLimiting("fixed")
     .RequireAuthorization();
 
+app.RegisterRoutes();
 app.Run();
 
