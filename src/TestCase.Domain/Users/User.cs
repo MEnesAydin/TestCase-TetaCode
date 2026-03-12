@@ -1,4 +1,5 @@
 using TestCase.Domain.Abstractions;
+using TestCase.Domain.Grades;
 using TestCase.Domain.Users.ValueObjects;
 
 namespace TestCase.Domain.Users;
@@ -15,4 +16,5 @@ public sealed class User : Entity
         return computedHash.SequenceEqual(Password.PasswordHash);
     }
 
+    public ICollection<Grade> Grades { get; set; } = new List<Grade>();
 }
