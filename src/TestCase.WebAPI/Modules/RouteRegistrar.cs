@@ -5,5 +5,6 @@ public static class RouteRegistrar
     public static void RegisterRoutes(this WebApplication app)
     {
         app.MapAuth();
+        app.MapUser();
     }
 }
