@@ -7,7 +7,7 @@ public static class ServiceRegistrar
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddMediatR(cfr =>
+        services.AddMediateX(cfr =>
         {
             cfr.RegisterServicesFromAssembly(typeof(ServiceRegistrar).Assembly);
         });

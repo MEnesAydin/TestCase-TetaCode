@@ -1,6 +1,6 @@
 using FluentValidation;
 using FluentValidation.Results;
-using MediatR;
+using MediateX;
 
 
 namespace TestCase.Application.Behaviors;
