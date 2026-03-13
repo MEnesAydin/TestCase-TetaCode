@@ -30,6 +30,7 @@ public static class ServiceRegistrar
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IClaimContext, ClaimContext>();
+        services.AddScoped<IGradeRepository, GradeRepository>();
         services.AddScoped<IJwtProvider, JwtProvider>();
         services.AddScoped<IUnitOfWork>(srv => srv.GetRequiredService<ApplicationDbContext>());
         

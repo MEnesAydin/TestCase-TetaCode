@@ -6,5 +6,6 @@ public static class RouteRegistrar
     {
         app.MapAuth();
         app.MapUser();
+        app.MapGrade();
     }
 }
