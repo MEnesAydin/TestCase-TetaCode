@@ -38,5 +38,17 @@ public static class GradeModule
             .Produces<Result<string>>(200)
             .Produces<Result<string>>(400)
             .Produces(401);
+        
+        app.MapPut("/",
+                async ([FromForm] GradeUpdateCommand request, ISender sender, CancellationToken cancellationToken) =>
+                {
+                    var res = await sender.Send(request, cancellationToken);
+                    return res.IsSuccessful ? Results.Ok(res) : Results.BadRequest(res);
+                })
+            .DisableAntiforgery()
+            .Accepts<GradeUpdateCommand>("multipart/form-data")
+            .Produces<Result<string>>(200)
+            .Produces<Result<string>>(400)
+            .Produces(401);
     }
 }
