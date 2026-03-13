@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TestCase.Application.Services;
 using TestCase.Domain.Features.GenericRepository;
+using TestCase.Domain.Grades;
 using TestCase.Domain.Users;
 using TestCase.Infrastructure.Context;
 using TestCase.Infrastructure.Options;
@@ -28,6 +29,7 @@ public static class ServiceRegistrar
         });
 
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IClaimContext, ClaimContext>();
         services.AddScoped<IJwtProvider, JwtProvider>();
         services.AddScoped<IUnitOfWork>(srv => srv.GetRequiredService<ApplicationDbContext>());
         

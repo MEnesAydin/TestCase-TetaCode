@@ -52,6 +52,7 @@ builder.Services.AddControllers();
 builder.Services.AddCors();
 builder.Services.AddOpenApi();
 builder.Services.AddExceptionHandler<ExceptionHandler>().AddProblemDetails();
+builder.Services.AddHttpContextAccessor();
 
 
 var app = builder.Build();
