@@ -1,4 +1,5 @@
 using MediateX;
+using Microsoft.EntityFrameworkCore;
 using TestCase.Application.Common;
 using TestCase.Application.Services;
 using TestCase.Domain.Abstractions;
@@ -26,8 +27,15 @@ internal sealed class GradeGetAllQueryHandler(
         CancellationToken cancellationToken)
     {
         var userId = claimContext.GetUserId();
+        
         var gradeQuery = gradeRepository.GetAll()
             .Where(g => g.UserId == userId);
+
+        // IsDeleted parametresi varsa filtrele
+        if (request.Parameters.IsDeleted.HasValue)
+        {
+            gradeQuery = gradeQuery.Where(g => g.IsDeleted == request.Parameters.IsDeleted.Value);
+        }
 
         var query = gradeQuery.Select(entity => new GradeGetAllQueryResponse
             {
