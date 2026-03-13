@@ -64,12 +64,12 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 }
 
+app.UseStaticFiles();
 app.UseCors(x => x
     .AllowAnyHeader()
     .AllowAnyOrigin()
     .AllowAnyMethod()
     .SetPreflightMaxAge(TimeSpan.FromMinutes(10)));
-app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseExceptionHandler();

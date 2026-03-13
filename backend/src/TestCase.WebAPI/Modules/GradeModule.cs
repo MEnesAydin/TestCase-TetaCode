@@ -50,5 +50,14 @@ public static class GradeModule
             .Produces<Result<string>>(200)
             .Produces<Result<string>>(400)
             .Produces(401);
+
+        app.MapDelete("/delete/{id}",
+                async (Guid id, ISender sender, CancellationToken cancellationToken) =>
+                {
+                    var res = await sender.Send(new GradeDeleteCommand(id), cancellationToken);
+                    return res.IsSuccessful ? Results.Ok(res) : Results.BadRequest(res);
+                })
+            .Produces<Result<string>>(200)
+            .Produces<Result<string>>(400);
     }
 }
