@@ -9,11 +9,13 @@ using TestCase.Domain.Grades;
 
 namespace TestCase.Application.Grades;
 
-public sealed record GradeUpdateCommand(
-    Guid Id,
-    string CourseName,
-    string Description,
-    IFormFile? File) : IRequest<Result<string>>;
+public sealed class GradeUpdateCommand : IRequest<Result<string>>
+{
+    public Guid Id { get; set; }
+    public string CourseName { get; set; } = default!;
+    public string Description { get; set; } = default!;
+    public IFormFile? File { get; set; }
+}
 
 public sealed class GradeUpdateCommandValidator : AbstractValidator<GradeUpdateCommand>
 {

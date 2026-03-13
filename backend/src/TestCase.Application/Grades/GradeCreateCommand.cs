@@ -9,10 +9,12 @@ using TestCase.Domain.Grades;
 
 namespace TestCase.Application.Grades;
 
-public sealed record GradeCreateCommand(
-    string CourseName,
-    string Description,
-    IFormFile File) : IRequest<Result<string>>;
+public sealed class GradeCreateCommand : IRequest<Result<string>>
+{
+    public string CourseName { get; set; } = default!;
+    public string Description { get; set; } = default!;
+    public IFormFile? File { get; set; }
+}
 
 public sealed class GradeCreateCommandValidator : AbstractValidator<GradeCreateCommand>
 {
@@ -36,20 +38,30 @@ internal sealed class GradeCreateCommandHandler(
     public async Task<Result<string>> Handle(GradeCreateCommand request, CancellationToken cancellationToken)
     {
         var userId = claimContext.GetUserId();
-        string fileName = FileService.FileSaveToServer(request.File, "wwwroot/images");
+        
+        string? fileName = null;
+        if (request.File is not null)
+        {
+            fileName = FileService.FileSaveToServer(request.File, "wwwroot/images");
+        }
+        
         Grade grade = new()
         {
             CourseName = request.CourseName,
             Description = request.Description,
             FileType = DetermineFileType(fileName),
-            FileName = fileName,
+            FileName = fileName ?? string.Empty,
             UserId = userId
         };
 
         await gradeRepository.AddAsync(grade, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result<string>.Succeed("Not başarıyla oluşturuldu ve dosya yüklendi.");
+        string message = request.File is not null 
+            ? "Not başarıyla oluşturuldu ve dosya yüklendi." 
+            : "Not başarıyla oluşturuldu.";
+        
+        return Result<string>.Succeed(message);
     }
     
     private FileTypeEnum DetermineFileType(string fileName)
