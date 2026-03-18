@@ -14,7 +14,6 @@ public sealed class GradeGetAllQueryResponse : EntityDto
 {
     public string CourseName { get; set; } = default!;
     public string Description { get; set; } = default!;
-    public FileTypeEnum FileType { get; set; } = default!;
     public string FileName { get; set; } = default!;
 }
 
@@ -42,7 +41,6 @@ internal sealed class GradeGetAllQueryHandler(
                 Id = entity.Id,
                 CourseName = entity.CourseName,
                 Description = entity.Description,
-                FileType = entity.FileType,
                 FileName = entity.FileName,
                 IsDeleted = entity.IsDeleted,
                 CreatedAt = entity.CreatedAt,

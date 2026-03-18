@@ -22,7 +22,7 @@ public sealed class GradeUpdateCommandValidator : AbstractValidator<GradeUpdateC
     public GradeUpdateCommandValidator()
     {
         RuleFor(p => p.Id)
-            .NotEmpty().WithMessage("Grade ID boş bırakılamaz.");
+            .NotEmpty().WithMessage("Id boş bırakılamaz.");
         
         RuleFor(p => p.CourseName)
             .NotEmpty().WithMessage("Ders adı boş bırakılamaz.")
@@ -62,35 +62,17 @@ internal sealed class GradeUpdateCommandHandler(
             // Delete old file if exists
             if (!string.IsNullOrEmpty(grade.FileName))
             {
-                FileService.FileDeleteToServer(grade.FileName);
+                FileService.FileDeleteToServer(Path.Combine("wwwroot/images/", grade.FileName));
             }
             
             // Save new file
-            string fileName = FileService.FileSaveToServer(request.File, "wwwroot/images");
+            string fileName = FileService.FileSaveToServer(request.File, "wwwroot/images/");
             grade.FileName = fileName;
-            grade.FileType = DetermineFileType(fileName);
         }
         
         gradeRepository.Update(grade);
         await unitOfWork.SaveChangesAsync(cancellationToken);
         
         return Result<string>.Succeed("Not başarıyla güncellendi.");
-    }
-    
-    private FileTypeEnum DetermineFileType(string fileName)
-    {
-        if (string.IsNullOrWhiteSpace(fileName))
-            return FileTypeEnum.Other;
-        
-        var extension = Path.GetExtension(fileName).ToLowerInvariant();
-        
-        return extension switch
-        {
-            ".pdf" => FileTypeEnum.Pdf,
-            ".doc" or ".docx" => FileTypeEnum.Word,
-            ".xls" or ".xlsx" => FileTypeEnum.Excel,
-            ".jpg" or ".jpeg" or ".png" or ".gif" or ".bmp" or ".webp" => FileTypeEnum.Image,
-            _ => FileTypeEnum.Other
-        };
     }
 }

@@ -42,14 +42,13 @@ internal sealed class GradeCreateCommandHandler(
         string? fileName = null;
         if (request.File is not null)
         {
-            fileName = FileService.FileSaveToServer(request.File, "wwwroot/images");
+            fileName = FileService.FileSaveToServer(request.File, "wwwroot/images/");
         }
         
         Grade grade = new()
         {
             CourseName = request.CourseName,
             Description = request.Description,
-            FileType = DetermineFileType(fileName),
             FileName = fileName ?? string.Empty,
             UserId = userId
         };
@@ -62,22 +61,5 @@ internal sealed class GradeCreateCommandHandler(
             : "Not başarıyla oluşturuldu.";
         
         return Result<string>.Succeed(message);
-    }
-    
-    private FileTypeEnum DetermineFileType(string fileName)
-    {
-        if (string.IsNullOrWhiteSpace(fileName))
-            return FileTypeEnum.Other;
-        
-        var extension = Path.GetExtension(fileName).ToLowerInvariant();
-        
-        return extension switch
-        {
-            ".pdf" => FileTypeEnum.Pdf,
-            ".doc" or ".docx" => FileTypeEnum.Word,
-            ".xls" or ".xlsx" => FileTypeEnum.Excel,
-            ".jpg" or ".jpeg" or ".png" or ".gif" or ".bmp" or ".webp" => FileTypeEnum.Image,
-            _ => FileTypeEnum.Other
-        };
     }
 }
