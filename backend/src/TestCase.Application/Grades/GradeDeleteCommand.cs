@@ -1,5 +1,4 @@
 using MediateX;
-using Microsoft.EntityFrameworkCore;
 using TestCase.Application.Common;
 using TestCase.Domain.Features.GenericRepository;
 using TestCase.Domain.Grades;
@@ -26,7 +25,7 @@ internal sealed class GradeDeleteCommandHandler(
             grade.IsDeleted = true;
             gradesRepository.Update(grade);
             await unitOfWork.SaveChangesAsync(cancellationToken);
-            return "Not arşive taşındı";
+            return "Not silindi";
         }
         else
         {

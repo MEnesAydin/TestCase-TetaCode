@@ -65,15 +65,15 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseStaticFiles();
+app.UseExceptionHandler();
 app.UseCors(x => x
     .AllowAnyHeader()
     .AllowAnyOrigin()
     .AllowAnyMethod()
     .SetPreflightMaxAge(TimeSpan.FromMinutes(10)));
+app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseExceptionHandler();
-app.UseRateLimiter();
 app.MapControllers()
     .RequireRateLimiting("fixed")
     .RequireAuthorization();
