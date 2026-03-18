@@ -6,6 +6,12 @@ public static class FileService
 {
     public static string FileSaveToServer(IFormFile file, string filePath)
     {
+        // Klasör yoksa oluştur
+        if (!Directory.Exists(filePath))
+        {
+            Directory.CreateDirectory(filePath);
+        }
+        
         string fileName = string.Join(".", DateTime.Now.ToFileTime().ToString(), file.FileName);
         string path = filePath + fileName;
         using (var stream = File.Create(path))
